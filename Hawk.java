@@ -18,16 +18,16 @@ public class Hawk extends Animal
     // The age to which a Hawk can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a Hawk breeding.
-    private static final double BREEDING_PROBABILITY = 0.04;
+    private static final double BREEDING_PROBABILITY = 0.042;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. 
-    private static final int RABBIT_FOOD_VALUE = 5;
+    private static final int RABBIT_FOOD_VALUE = 6;
     // The food value of a single fox.
-    private static final int FOX_FOOD_VALUE = 3;
+    private static final int FOX_FOOD_VALUE = 4;
     // The total amount of food a hawk can store. In effect, this is the
     // maximum number of steps a Hawk can go before it has to eat again.
-    private static final int MAX_FOOD_VALUE = 10;
+    private static final int MAX_FOOD_VALUE = 13;
     // A shared random number generator to control starting age.
     private static final Random rand = Randomizer.getRandom();
     
@@ -158,20 +158,6 @@ public class Hawk extends Animal
     {
         return new Hawk(false, super.getField(), super.getLocation());
     }
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    // private int breed()
-    // {
-        // int births = 0;
-        // if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            // births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        // }
-        // return births;
-    // }
     
     public int getBreedingAge()
     {
