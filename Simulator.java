@@ -8,8 +8,8 @@ import java.awt.Color;
  * A simple predator-prey simulator, based on a rectangular field
  * containing rabbits and foxes.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author Zach Theis
+ * @version 2020.11.17
  */
 public class Simulator
 {
@@ -19,9 +19,9 @@ public class Simulator
     // The default depth of the grid.
     private static final int DEFAULT_DEPTH = 80;
     // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.025;
+    private static final double FOX_CREATION_PROBABILITY = 0.03;
     // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.07;
+    private static final double RABBIT_CREATION_PROBABILITY = 0.065;
     // The probability that a hawk will be created in any given grid position.
     private static final double HAWK_CREATION_PROBABILITY = 0.005;
 
@@ -94,7 +94,7 @@ public class Simulator
     /**
      * Run the simulation from its current state for a single step.
      * Iterate over the whole field updating the state of each
-     * fox and rabbit.
+     * fox, rabbit, and hawk.
      */
     public void simulateOneStep()
     {
@@ -131,7 +131,7 @@ public class Simulator
     }
     
     /**
-     * Randomly populate the field with foxes and rabbits.
+     * Randomly populate the field with foxes, rabbits, and hawks.
      */
     private void populate()
     {

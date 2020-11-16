@@ -3,8 +3,8 @@ import java.util.Random;
 /**
  * A class representing shared characteristics of animals.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author Zach Theis
+ * @version 2020.11.17
  */
 public abstract class Animal
 {
@@ -94,18 +94,34 @@ public abstract class Animal
         return field;
     }
     
+    /**
+     * Indicate whether the animal is of breeding age.
+     * @return Whether or not the animal can breed.
+     */
     public boolean canBreed()
     {
         return age >= getBreedingAge();
     }
     
+    /**
+     * A method to get the breeding age that must be implemented by all subclasses.
+     * @return The minimum breeding age of the animal.
+     */
     abstract protected int getBreedingAge();
     
+    /**
+     * Gets the animals current age.
+     * @return The int value of the animal's age.
+     */
     protected int getAge()
     {
         return age;
     }
     
+    /**
+     * Set's a new age for the animal.
+     * @param newAge The age to be set.
+     */
     protected void setAge(int newAge)
     {
         age = newAge;
@@ -124,8 +140,18 @@ public abstract class Animal
         }
     }
     
+    /**
+     * Get's the animal's maximum age before it dies. This is an abstract
+     * method which must be implemented by all subclasses
+     * @return The animal's max age.
+     */
     abstract protected int getMaxAge();
     
+    /**
+     * Generates the number of new animals created by an animal of breeding age.
+     * This depends on the animal's breeding probability.
+     * @return How many new animals are born.
+     */
     protected int breed()
     {
         int births = 0;
@@ -135,6 +161,10 @@ public abstract class Animal
         return births;
     }
     
+    /**
+     * Creates the new animals as indicated by the breed method.
+     * @param newAnimals An empty list that will store the newborn animals.
+     */
     protected void giveBirth(List<Animal> newAnimals)
     {
         // New rabbits are born into adjacent locations.
@@ -148,9 +178,27 @@ public abstract class Animal
         }
     }
     
+    /**
+     * An abstract method to create a newborn animal. This is implemented by each
+     * subclass to create an animal of their type.
+     * @param randomAge whether or not the new animal's age is randomized.
+     * @param field The field in which the new animal is created.
+     * @loc The specific location within the field of the new animal.
+     * @return The newborn animal
+     */
     abstract protected Animal createAnimal(boolean randomAge, Field field, Location loc);
     
+    /**
+     * An abstract method to get an animal's maximum number of offspring it can
+     * create at one time. Implemented by each subclass.
+     * @return The int value of the animal's max litter size.
+     */
     abstract protected int getMaxLitterSize();
     
+    /**
+     * An abstract method to get the likelihood that an animal will produce offspring.
+     * Implemented by each subclass
+     * @return The percentage chance that the animal will breed.
+     */
     abstract protected double getBreedingProbability();
 }

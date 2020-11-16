@@ -4,10 +4,13 @@ import java.util.Random;
 
 /**
  * A simple model of a Hawk.
- * Hawkes age, move, eat rabbits and foxes, and die.
+ * Hawkes age, move, eat rabbits and foxes, and die. They have a low breeding 
+ * probability, age range, and max litter size. Animals give them less food than
+ * foxes, but they have a max value and add their prey's value to their current
+ * food level.
  * 
  * @author Zach Theis
- * @version 2020.11.16
+ * @version 2020.11.17
  */
 public class Hawk extends Animal
 {
@@ -18,7 +21,7 @@ public class Hawk extends Animal
     // The age to which a Hawk can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a Hawk breeding.
-    private static final double BREEDING_PROBABILITY = 0.042;
+    private static final double BREEDING_PROBABILITY = 0.041;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. 
@@ -27,7 +30,7 @@ public class Hawk extends Animal
     private static final int FOX_FOOD_VALUE = 4;
     // The total amount of food a hawk can store. In effect, this is the
     // maximum number of steps a Hawk can go before it has to eat again.
-    private static final int MAX_FOOD_VALUE = 13;
+    private static final int MAX_FOOD_VALUE = 12;
     // A shared random number generator to control starting age.
     private static final Random rand = Randomizer.getRandom();
     
@@ -59,7 +62,7 @@ public class Hawk extends Animal
     
     /**
      * This is what the Hawk does most of the time: it hunts for
-     * rabbits. In the process, it might breed, die of hunger,
+     * rabbits and foxes. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
      * @param newHawkes A list to return newly born Hawkes.
@@ -111,8 +114,8 @@ public class Hawk extends Animal
     }
     
     /**
-     * Look for rabbits adjacent to the current location.
-     * Only the first live rabbit is eaten.
+     * Look for rabbits or foxes adjacent to the current location.
+     * Only the first live animal is eaten.
      * @return Where food was found, or null if it wasn't.
      */
     private Location findFood()
@@ -154,21 +157,37 @@ public class Hawk extends Animal
         return null;
     }
     
+    /**
+     * Creates a new hawk. This is used by Animal for the giveBirth method.
+     * @return The newborn hawk.
+     */
     protected Animal createAnimal(boolean randomAge, Field field, Location loc)
     {
         return new Hawk(false, super.getField(), super.getLocation());
     }
     
+    /**
+     * Gets the minimum age at which a hawk can breed.
+     * @return The int value of the hawk's min breeding age.
+     */
     public int getBreedingAge()
     {
         return BREEDING_AGE;
     }
     
+    /**
+     * Gets the hawk's maximum number of offspring that can be created at a time.
+     * @return The int value of the hawk's max litter size.
+     */
     public int getMaxLitterSize()
     {
         return MAX_LITTER_SIZE;
     }
     
+    /**
+     * Get's the likelihood that the hawk will breed.
+     * @return The percent value that the hawk will produce offspring.
+     */
     public double getBreedingProbability()
     {
         return BREEDING_PROBABILITY;

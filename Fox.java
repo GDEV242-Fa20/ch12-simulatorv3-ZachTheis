@@ -6,8 +6,8 @@ import java.util.Random;
  * A simple model of a fox.
  * Foxes age, move, eat rabbits, and die.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author Zach Theis
+ * @version 2020.11.16
  */
 public class Fox extends Animal
 {
@@ -18,7 +18,7 @@ public class Fox extends Animal
     // The age to which a fox can live.
     private static final int MAX_AGE = 150;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.0876;
+    private static final double BREEDING_PROBABILITY = 0.087888;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
@@ -26,7 +26,7 @@ public class Fox extends Animal
     private static final int RABBIT_FOOD_VALUE = 9;
     //The maximum amount of food a fox can hold. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int MAX_FOOD_VALUE = 15;
+    private static final int MAX_FOOD_VALUE = 17;
     // A shared random number generator to control starting age.
     private static final Random rand = Randomizer.getRandom();
     
@@ -91,7 +91,8 @@ public class Fox extends Animal
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Get's the fox's max age.
+     * @return The int value of the fox's max age
      */
     public int getMaxAge()
     {
@@ -139,39 +140,36 @@ public class Fox extends Animal
     }
     
     /**
-     * Check whether or not this fox is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newFoxes A list to return newly born foxes.
+     * Creates a new fox. This method is used by Animal to create newborn foxes.
+     * @return The newborn Fox
      */
     protected Animal createAnimal(boolean randomAge, Field field, Location loc)
     {
         return new Fox(randomAge, field, loc);
     }
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-    // private int breed()
-    // {
-        // int births = 0;
-        // if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            // births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        // }
-        // return births;
-    // }
     
+    /**
+     * Gets the minimum age at which a fox can breed.
+     * @return The int value of the fox's min breeding age.
+     */
     public int getBreedingAge()
     {
         return BREEDING_AGE;
     }
     
+    /**
+     * Gets the fox's maximum number of offspring that can be created at a time.
+     * @return The int value of the fox's max litter size.
+     */
     public int getMaxLitterSize()
     {
         return MAX_LITTER_SIZE;
     }
     
+    /**
+     * Get's the likelihood that the fox will breed.
+     * @return The percent value that the fox will produce offspring.
+     */
     public double getBreedingProbability()
     {
         return BREEDING_PROBABILITY;
