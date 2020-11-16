@@ -4,10 +4,10 @@ import java.util.Random;
 
 /**
  * A simple model of a Hawk.
- * Hawkes age, move, eat rabbits, and die.
+ * Hawkes age, move, eat rabbits and foxes, and die.
  * 
- * @author David J. Barnes and Michael Kölling
- * @version 2016.02.29 (2)
+ * @author Zach Theis
+ * @version 2020.11.16
  */
 public class Hawk extends Animal
 {
@@ -49,11 +49,11 @@ public class Hawk extends Animal
         if(randomAge) 
         {
             setAge(rand.nextInt(MAX_AGE));
-            foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
+            foodLevel = rand.nextInt(MAX_FOOD_VALUE);
         }
         else 
         {
-            foodLevel = RABBIT_FOOD_VALUE;
+            foodLevel = MAX_FOOD_VALUE;
         }
     }
     
