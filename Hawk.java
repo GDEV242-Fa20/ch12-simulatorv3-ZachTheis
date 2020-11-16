@@ -3,43 +3,47 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a fox.
- * Foxes age, move, eat rabbits, and die.
+ * A simple model of a Hawk.
+ * Hawkes age, move, eat rabbits, and die.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29 (2)
  */
-public class Fox extends Animal
+public class Hawk extends Animal
 {
-    // Characteristics shared by all foxes (class variables).
+    // Characteristics shared by all Hawkes (class variables).
     
-    // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 15;
-    // The age to which a fox can live.
-    private static final int MAX_AGE = 150;
-    // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    // The age at which a Hawk can start to breed.
+    private static final int BREEDING_AGE = 10;
+    // The age to which a Hawk can live.
+    private static final int MAX_AGE = 40;
+    // The likelihood of a Hawk breeding.
+    private static final double BREEDING_PROBABILITY = 0.04;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single rabbit. In effect, this is the
-    // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 9;
+    // The food value of a single rabbit. 
+    private static final int RABBIT_FOOD_VALUE = 5;
+    // The food value of a single fox.
+    private static final int FOX_FOOD_VALUE = 3;
+    // The total amount of food a hawk can store. In effect, this is the
+    // maximum number of steps a Hawk can go before it has to eat again.
+    private static final int MAX_FOOD_VALUE = 10;
     // A shared random number generator to control starting age.
     private static final Random rand = Randomizer.getRandom();
     
     // Individual characteristics (instance fields).
-    // The fox's food level, which is increased by eating rabbits.
+    // The Hawk's food level, which is increased by eating rabbits.
     private int foodLevel;
 
     /**
-     * Create a fox. A fox can be created as a new born (age zero
+     * Create a Hawk. A Hawk can be created as a new born (age zero
      * and not hungry) or with a random age and food level.
      * 
-     * @param randomAge If true, the fox will have random age and hunger level.
+     * @param randomAge If true, the Hawk will have random age and hunger level.
      * @param field The field currently occupied.
      * @param location The location within the field.
      */
-    public Fox(boolean randomAge, Field field, Location location)
+    public Hawk(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         if(randomAge) 
@@ -54,19 +58,19 @@ public class Fox extends Animal
     }
     
     /**
-     * This is what the fox does most of the time: it hunts for
+     * This is what the Hawk does most of the time: it hunts for
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      * @param field The field currently occupied.
-     * @param newFoxes A list to return newly born foxes.
+     * @param newHawkes A list to return newly born Hawkes.
      */
-    public void act(List<Animal> newFoxes)
+    public void act(List<Animal> newHawkes)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) 
         {
-            giveBirth(newFoxes);            
+            giveBirth(newHawkes);            
             // Move towards a source of food if found.
             Location newLocation = findFood();
             if(newLocation == null) 
@@ -88,7 +92,7 @@ public class Fox extends Animal
     }
 
     /**
-     * Increase the age. This could result in the fox's death.
+     * Increase the age. This could result in the Hawk's death.
      */
     public int getMaxAge()
     {
@@ -96,7 +100,7 @@ public class Fox extends Animal
     }
     
     /**
-     * Make this fox more hungry. This could result in the fox's death.
+     * Make this Hawk more hungry. This could result in the Hawk's death.
      */
     private void incrementHunger()
     {
@@ -119,11 +123,30 @@ public class Fox extends Animal
         while(it.hasNext()) {
             Location where = it.next();
             Object animal = field.getObjectAt(where);
-            if(animal instanceof Rabbit) {
+            if(animal instanceof Rabbit) 
+            {
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                     rabbit.setDead();
-                    foodLevel = RABBIT_FOOD_VALUE;
+                    foodLevel += RABBIT_FOOD_VALUE;
+                    if(foodLevel > MAX_FOOD_VALUE)
+                    {
+                        foodLevel = MAX_FOOD_VALUE;
+                    }
+                    return where;
+                }
+            }
+            else if(animal instanceof Fox)
+            {
+                Fox fox = (Fox) animal;
+                if(fox.isAlive())
+                {
+                    fox.setDead();
+                    foodLevel += FOX_FOOD_VALUE;
+                    if(foodLevel > MAX_FOOD_VALUE)
+                    {
+                        foodLevel = MAX_FOOD_VALUE;
+                    }
                     return where;
                 }
             }
@@ -132,21 +155,21 @@ public class Fox extends Animal
     }
     
     /**
-     * Check whether or not this fox is to give birth at this step.
+     * Check whether or not this Hawk is to give birth at this step.
      * New births will be made into free adjacent locations.
-     * @param newFoxes A list to return newly born foxes.
+     * @param newHawkes A list to return newly born Hawkes.
      */
-    private void giveBirth(List<Animal> newFoxes)
+    private void giveBirth(List<Animal> newHawkes)
     {
-        // New foxes are born into adjacent locations.
+        // New Hawkes are born into adjacent locations.
         // Get a list of adjacent free locations.
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int births = breed();
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Fox young = new Fox(false, field, loc);
-            newFoxes.add(young);
+            Hawk young = new Hawk(false, field, loc);
+            newHawkes.add(young);
         }
     }
         
