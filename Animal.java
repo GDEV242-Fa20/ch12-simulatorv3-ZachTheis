@@ -1,5 +1,5 @@
 import java.util.List;
-
+import java.util.Random;
 /**
  * A class representing shared characteristics of animals.
  * 
@@ -14,6 +14,8 @@ public abstract class Animal
     private Field field;
     // The animal's position in the field.
     private Location location;
+    // A shared random number generator to control breeding.
+    private static final Random rand = Randomizer.getRandom();
     
     private int age;
     
@@ -123,4 +125,17 @@ public abstract class Animal
     }
     
     abstract protected int getMaxAge();
+    
+    protected int breed()
+    {
+        int births = 0;
+        if(canBreed() && rand.nextDouble() <= getBreedingProbability()) {
+            births = rand.nextInt(getMaxLitterSize()) + 1;
+        }
+        return births;
+    }
+    
+    abstract protected int getMaxLitterSize();
+    
+    abstract protected double getBreedingProbability();
 }
