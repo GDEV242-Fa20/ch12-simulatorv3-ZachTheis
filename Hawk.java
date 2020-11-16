@@ -154,23 +154,9 @@ public class Hawk extends Animal
         return null;
     }
     
-    /**
-     * Check whether or not this Hawk is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newHawkes A list to return newly born Hawkes.
-     */
-    private void giveBirth(List<Animal> newHawkes)
+    protected Animal createAnimal(boolean randomAge, Field field, Location loc)
     {
-        // New Hawkes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Hawk young = new Hawk(false, field, loc);
-            newHawkes.add(young);
-        }
+        return new Hawk(false, super.getField(), super.getLocation());
     }
         
     /**
